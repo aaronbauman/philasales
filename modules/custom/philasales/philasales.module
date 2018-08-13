@@ -101,7 +101,6 @@ function philasales_populate_properties() {
   $storage = \Drupal::entityTypeManager()->getStorage('property');
   $props = $storage
     ->getQuery()
-    ->exists('geofield')
     ->notExists('ward')
     ->notExists('division')
     ->notExists('geoFail')
