@@ -39,7 +39,7 @@ use Drupal\philasales\PropertyInterface;
  *   entity_keys = {
  *     "id" = "id",
  *     "revision" = "revision_id",
- *     "label" = "title",
+ *     "label" = "location",
  *     "uuid" = "uuid"
  *   },
  *   revision_metadata_keys = {
