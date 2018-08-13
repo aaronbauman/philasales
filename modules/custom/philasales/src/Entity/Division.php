@@ -33,7 +33,7 @@ use Drupal\philasales\DivisionInterface;
  *   admin_permission = "administer division",
  *   entity_keys = {
  *     "id" = "id",
- *     "label" = "title",
+ *     "label" = "division",
  *     "uuid" = "uuid"
  *   },
  *   links = {

@@ -33,7 +33,7 @@ use Drupal\philasales\WardInterface;
  *   admin_permission = "administer ward",
  *   entity_keys = {
  *     "id" = "id",
- *     "label" = "title",
+ *     "label" = "ward",
  *     "uuid" = "uuid"
  *   },
  *   links = {
