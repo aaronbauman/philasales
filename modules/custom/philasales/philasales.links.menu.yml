@@ -1,0 +1,35 @@
+entity.property.settings:
+  title: Property
+  description: Configure a Property entity type
+  route_name:  entity.property.settings
+  parent: system.admin_structure
+
+entity.property.collection:
+  title: Properties
+  description: List of properties
+  route_name: entity.property.collection
+  parent: system.admin_content
+
+entity.ward.settings:
+  title: ward
+  description: Configure a ward entity type
+  route_name:  entity.ward.settings
+  parent: system.admin_structure
+
+entity.ward.collection:
+  title: Properties
+  description: List of properties
+  route_name: entity.ward.collection
+  parent: system.admin_content
+
+entity.division.settings:
+  title: division
+  description: Configure a division entity type
+  route_name:  entity.division.settings
+  parent: system.admin_structure
+
+entity.division.collection:
+  title: Properties
+  description: List of properties
+  route_name: entity.division.collection
+  parent: system.admin_content

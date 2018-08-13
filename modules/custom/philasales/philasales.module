@@ -1,0 +1,134 @@
+<?php
+
+/**
+ * @file
+ * Provides a property entity type.
+ */
+
+use Drupal\Core\Render\Element;
+
+/**
+ * Implements hook_theme().
+ */
+function philasales_theme() {
+  return [
+    'property' => [
+      'render element' => 'elements',
+    ],
+  ];
+}
+
+/**
+ * Prepares variables for property templates.
+ *
+ * Default template: property.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the property information and any
+ *     fields attached to the entity.
+ *   - attributes: HTML attributes for the containing element.
+ */
+function template_preprocess_property(array &$variables) {
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+function philasales_cron() {
+  philasales_fetch_new_sales();
+  philasales_populate_properties();
+}
+
+function philasales_fetch_new_sales() {
+  $last = \Drupal::state()->get('philasales_last_fetch', strtotime('2018-01-01'));
+  if ($last > strtotime('-24 hours')) {
+    return;
+  }
+  $cutoff = date('Y-m-d', $last);
+  $query = "https://phl.carto.com/api/v2/sql?q=SELECT ST_X(the_geom) AS lon, ST_Y(the_geom) as lat,location,market_value,owner_1,owner_2,parcel_number,recording_date,sale_date,sale_price,total_area,total_livable_area,zoning,zip_code FROM opa_properties_public where sale_date > '$cutoff'";
+  $response = \Drupal::httpClient()->request('GET', $query);
+  $content = json_decode($response->getBody()->getContents());
+  foreach ($content->rows as $row) {
+    $prop = \Drupal\philasales\Entity\Property::load((int)$row->parcel_number);
+    $values = get_object_vars($row);
+    if (!$prop) {
+      foreach ($values as &$value) {
+        $value = trim($value);
+      }
+      try {
+        $values += [
+          'id' => $row->parcel_number
+        ];
+        // Two step save so we don't loose a property entirely due to missing coords.
+        $prop = \Drupal\philasales\Entity\Property::create($values)
+          ->save();
+        $prop
+          ->set('geofield', \Drupal::service('geofield.wkt_generator')->wktBuildPoint([$values['lon'], $values['lat']]))
+          ->save();
+      }
+      catch (\Exception $e) {
+        watchdog_exception('philasales', $e);
+        \Drupal::logger('philasales')->error(print_r($row, 1));
+      }
+    }
+    else {
+      /** @var \Drupal\Core\Entity\EntityFieldManager $definition */
+      $fields = \Drupal::service('entity_field.manager')->getBaseFieldDefinitions('property');
+
+      foreach ($values as $key => &$value) {
+        if (empty($fields[$key])) {
+          continue;
+        }
+        $prop->set($key, trim($value));
+      }
+      try {
+        $prop->save();
+        $prop->geofield->value = \Drupal::service('geofield.wkt_generator')
+          ->wktBuildPoint([$values['lon'], $values['lat']]);
+        $prop->save();
+      }
+      catch (\Exception $e) {
+        watchdog_exception('philasales', $e);
+        \Drupal::logger('philasales')->error(print_r($row, 1));
+      }
+    }
+  }
+  \Drupal::state()->set('philasales_last_fetch', \Drupal::time()->getRequestTime());
+}
+
+function philasales_populate_properties() {
+  $storage = \Drupal::entityTypeManager()->getStorage('property');
+  $props = $storage
+    ->getQuery()
+    ->exists('geofield')
+    ->notExists('ward')
+    ->notExists('division')
+    ->notExists('geoFail')
+    ->execute();
+  foreach ($props as $id) {
+    $prop = \Drupal\philasales\Entity\Property::load($id);
+    $geometry = urlencode('{"x" : ' . $prop->geofield->lon . ', "y" : ' . $prop->geofield->lat . ', "spatialReference" : {"wkid" : 4326}}');
+    $query = "https://services.arcgis.com/fLeGjb7u4uXqeF9q/ArcGIS/rest/services/Political_Divisions/FeatureServer/0/query?geometry=$geometry&geometryType=esriGeometryPoint&inSR=4326&outFields=DIVISION_NUM&returnGeometry=false&f=pjson";
+    $response = \Drupal::httpClient()->request('GET', $query);
+    $data = json_decode($response->getBody()->getContents());
+    if (empty($data->features)) {
+      continue;
+    }
+    $feature = current($data->features);
+    if (empty($feature->attributes->DIVISION_NUM)) {
+      \Drupal::logger('philasales')->error('Failed to get ward/div for property ' . $id);
+      $prop->set('geoFail', 1)->save();
+      continue;
+    }
+    $div_num = $feature->attributes->DIVISION_NUM;
+    $ward = substr($div_num, 0, 2);
+    $div = substr($div_num, 2, 2);
+    $prop
+      ->set('ward', $ward)
+      ->set('division', $div)
+      ->save();
+    // Don't hammer the arcgis server too hard:
+    sleep(2);
+  }
+}

@@ -1,0 +1,23 @@
+entity.property.settings:
+  path: 'admin/structure/property'
+  defaults:
+    _form: '\Drupal\philasales\Form\PropertySettingsForm'
+    _title: 'Property'
+  requirements:
+    _permission: 'administer property'
+
+entity.ward.settings:
+  path: 'admin/structure/ward'
+  defaults:
+    _form: '\Drupal\philasales\Form\WardSettingsForm'
+    _title: 'ward'
+  requirements:
+    _permission: 'administer ward'
+
+entity.division.settings:
+  path: 'admin/structure/division'
+  defaults:
+    _form: '\Drupal\philasales\Form\DivisionSettingsForm'
+    _title: 'division'
+  requirements:
+    _permission: 'administer division'

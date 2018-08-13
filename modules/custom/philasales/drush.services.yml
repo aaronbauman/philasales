@@ -1,0 +1,5 @@
+services:
+  philasales.commands:
+    class: \Drupal\philasales\Commands\PhilasalesCommands
+    tags:
+      - { name: drush.command }

@@ -1,0 +1,17 @@
+division.add_form:
+  route_name: entity.division.add_form
+  title: 'Add division'
+  appears_on:
+    - entity.division.collection
+
+ward.add_form:
+  route_name: entity.ward.add_form
+  title: 'Add ward'
+  appears_on:
+  - entity.ward.collection
+
+property.add_form:
+  route_name: entity.property.add_form
+  title: 'Add property'
+  appears_on:
+  - entity.property.collection

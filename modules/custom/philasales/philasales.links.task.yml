@@ -1,0 +1,68 @@
+entity.property.settings:
+  title: Settings
+  route_name: entity.property.settings
+  base_route: entity.property.settings
+entity.property.view:
+  title: View
+  route_name: entity.property.canonical
+  base_route: entity.property.canonical
+entity.property.edit_form:
+  title: Edit
+  route_name: entity.property.edit_form
+  base_route: entity.property.canonical
+entity.property.delete_form:
+  title: Delete
+  route_name: entity.property.delete_form
+  base_route: entity.property.canonical
+  weight: 10
+entity.property.collection:
+  title: Property
+  route_name: entity.property.collection
+  base_route: system.admin_content
+  weight: 10
+
+entity.division.settings:
+  title: Settings
+  route_name: entity.division.settings
+  base_route: entity.division.settings
+entity.division.view:
+  title: View
+  route_name: entity.division.canonical
+  base_route: entity.division.canonical
+entity.division.edit_form:
+  title: Edit
+  route_name: entity.division.edit_form
+  base_route: entity.division.canonical
+entity.division.delete_form:
+  title: Delete
+  route_name: entity.division.delete_form
+  base_route: entity.division.canonical
+  weight: 10
+entity.division.collection:
+  title: division
+  route_name: entity.division.collection
+  base_route: system.admin_content
+  weight: 10
+
+entity.ward.settings:
+  title: Settings
+  route_name: entity.ward.settings
+  base_route: entity.ward.settings
+entity.ward.view:
+  title: View
+  route_name: entity.ward.canonical
+  base_route: entity.ward.canonical
+entity.ward.edit_form:
+  title: Edit
+  route_name: entity.ward.edit_form
+  base_route: entity.ward.canonical
+entity.ward.delete_form:
+  title: Delete
+  route_name: entity.ward.delete_form
+  base_route: entity.ward.canonical
+  weight: 10
+entity.ward.collection:
+  title: ward
+  route_name: entity.ward.collection
+  base_route: system.admin_content
+  weight: 10

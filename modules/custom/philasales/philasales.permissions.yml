@@ -1,0 +1,9 @@
+administer property types:
+  title: 'Administer property types'
+  description: 'Maintain the types of property entity.'
+  restrict access: true
+administer property:
+  title: Administer property settings
+  restrict access: true
+access property overview:
+  title: 'Access property overview page'
