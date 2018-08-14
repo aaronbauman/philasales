@@ -63,6 +63,7 @@ function philasales_fetch_new_sales() {
         // Two step save so we don't loose a property entirely due to missing coords.
         $prop = \Drupal\philasales\Entity\Property::create($values)
           ->save();
+        \Drupal::logger('philasales')->info(dt('Saved new property sale !id', ['!id' => $row->parcel_number]));
         $prop
           ->set('geofield', \Drupal::service('geofield.wkt_generator')->wktBuildPoint([$values['lon'], $values['lat']]))
           ->save();
@@ -84,6 +85,7 @@ function philasales_fetch_new_sales() {
       }
       try {
         $prop->save();
+        \Drupal::logger('philasales')->info(dt('Updated property with new sale !id', ['!id' => $row->parcel_number]));
         $prop->geofield->value = \Drupal::service('geofield.wkt_generator')
           ->wktBuildPoint([$values['lon'], $values['lat']]);
         $prop->save();
@@ -128,6 +130,7 @@ function philasales_populate_properties() {
       ->set('div_num', $div)
       ->set('division', $div_num)
       ->save();
+    \Drupal::logger('philasales')->info(dt('Updated property !id with ward-div !divnum', ['!id' => $prop->id(), '!divnum' => $div_num]));
     // Don't hammer the arcgis server too hard:
     sleep(2);
   }
