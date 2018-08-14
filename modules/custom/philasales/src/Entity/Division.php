@@ -2,10 +2,12 @@
 
 namespace Drupal\philasales\Entity;
 
+use Drupal\Core\Access\AccessResultAllowed;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\philasales\DivisionInterface;
 
 /**
@@ -47,6 +49,13 @@ use Drupal\philasales\DivisionInterface;
  * )
  */
 class Division extends ContentEntityBase implements DivisionInterface {
+
+  public function access($operation, AccountInterface $account = NULL, $return_as_object = FALSE) {
+    if ($operation == 'view label') {
+      return AccessResultAllowed::allowed();
+    }
+    return parent::access($operation, $account, $return_as_object);
+  }
 
   /**
    * {@inheritdoc}

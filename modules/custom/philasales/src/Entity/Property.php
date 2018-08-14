@@ -3,11 +3,13 @@
 namespace Drupal\philasales\Entity;
 
 use Drupal\Console\Utils\Create\Base;
+use Drupal\Core\Access\AccessResultAllowed;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\RevisionableContentEntityBase;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\philasales\PropertyInterface;
 
 /**
@@ -59,6 +61,13 @@ use Drupal\philasales\PropertyInterface;
 class Property extends RevisionableContentEntityBase implements PropertyInterface {
 
   use EntityChangedTrait;
+
+  public function access($operation, AccountInterface $account = NULL, $return_as_object = FALSE) {
+    if ($operation == 'view label') {
+      return AccessResultAllowed::allowed();
+    }
+    return parent::access($operation, $account, $return_as_object);
+  }
 
   /**
    * {@inheritdoc}
