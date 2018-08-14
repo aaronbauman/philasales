@@ -6,7 +6,7 @@
  */
 
 use Drupal\Core\Render\Element;
-
+use Drupal\philasales\Entity\Property;
 /**
  * Implements hook_theme().
  */
@@ -41,16 +41,15 @@ function philasales_cron() {
 }
 
 function philasales_fetch_new_sales() {
-  $last = \Drupal::state()->get('philasales_last_fetch', strtotime('2018-01-01'));
-  if ($last > strtotime('-24 hours')) {
-    return;
-  }
-  $cutoff = date('Y-m-d', $last);
-  $query = "https://phl.carto.com/api/v2/sql?q=SELECT ST_X(the_geom) AS lon, ST_Y(the_geom) as lat,location,market_value,owner_1,owner_2,parcel_number,recording_date,sale_date,sale_price,total_area,total_livable_area,zoning,zip_code FROM opa_properties_public where sale_date > '$cutoff'";
+  $max_recording_date = \Drupal::database()->query("SELECT DATE_FORMAT(MAX(recording_date),'%Y-%m-%d') FROM property")->fetchField();
+  $max_sale_date = \Drupal::database()->query("SELECT DATE_FORMAT(MAX(sale_date),'%Y-%m-%d') FROM property")->fetchField();
+  $query = "https://phl.carto.com/api/v2/sql?q=SELECT ST_X(the_geom) AS lon, ST_Y(the_geom) as lat,location,market_value,owner_1,owner_2,parcel_number,recording_date,sale_date,sale_price,total_area,total_livable_area,zoning,zip_code FROM opa_properties_public where (sale_date >= '$max_sale_date' OR recording_date >= '$max_recording_date')";
+  \Drupal::logger('philasales')->info('Query: !query', ['!query' => $query]);
   $response = \Drupal::httpClient()->request('GET', $query);
   $content = json_decode($response->getBody()->getContents());
+  \Drupal::logger('philasales')->info('!n results', ['!n' => count($content->rows)]);
   foreach ($content->rows as $row) {
-    $prop = \Drupal\philasales\Entity\Property::load((int)$row->parcel_number);
+    $prop = Property::load((int)$row->parcel_number);
     $values = get_object_vars($row);
     if (!$prop) {
       foreach ($values as &$value) {
@@ -61,7 +60,7 @@ function philasales_fetch_new_sales() {
           'id' => $row->parcel_number
         ];
         // Two step save so we don't loose a property entirely due to missing coords.
-        $prop = \Drupal\philasales\Entity\Property::create($values)
+        $prop = Property::create($values)
           ->save();
         \Drupal::logger('philasales')->info(t('Saved new property sale !id', ['!id' => $row->parcel_number]));
         $prop
@@ -96,7 +95,6 @@ function philasales_fetch_new_sales() {
       }
     }
   }
-  \Drupal::state()->set('philasales_last_fetch', \Drupal::time()->getRequestTime());
 }
 
 function philasales_populate_properties() {
@@ -108,7 +106,7 @@ function philasales_populate_properties() {
     ->notExists('geoFail')
     ->execute();
   foreach ($props as $id) {
-    $prop = \Drupal\philasales\Entity\Property::load($id);
+    $prop = Property::load($id);
     $geometry = urlencode('{"x" : ' . $prop->geofield->lon . ', "y" : ' . $prop->geofield->lat . ', "spatialReference" : {"wkid" : 4326}}');
     $query = "https://services.arcgis.com/fLeGjb7u4uXqeF9q/ArcGIS/rest/services/Political_Divisions/FeatureServer/0/query?geometry=$geometry&geometryType=esriGeometryPoint&inSR=4326&outFields=DIVISION_NUM&returnGeometry=false&f=pjson";
     $response = \Drupal::httpClient()->request('GET', $query);
