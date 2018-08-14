@@ -17,15 +17,4 @@ interface DivisionInterface extends ContentEntityInterface {
    */
   public function getTitle();
 
-  /**
-   * Sets the division title.
-   *
-   * @param string $title
-   *   The division title.
-   *
-   * @return \Drupal\philasales\DivisionInterface
-   *   The called division entity.
-   */
-  public function setTitle($title);
-
 }

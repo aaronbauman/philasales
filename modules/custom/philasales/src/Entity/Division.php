@@ -33,7 +33,7 @@ use Drupal\philasales\DivisionInterface;
  *   admin_permission = "administer division",
  *   entity_keys = {
  *     "id" = "id",
- *     "label" = "division",
+ *     "label" = "id",
  *     "uuid" = "uuid"
  *   },
  *   links = {
@@ -63,7 +63,7 @@ class Division extends ContentEntityBase implements DivisionInterface {
    * {@inheritdoc}
    */
   public function getTitle() {
-    return $this->get('division')->value;
+    return $this->get('ward')->value . '-' . $this->get('division')->value;
   }
 
   /**
