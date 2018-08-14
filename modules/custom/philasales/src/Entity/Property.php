@@ -170,19 +170,26 @@ class Property extends RevisionableContentEntityBase implements PropertyInterfac
       ->setRequired(TRUE);
 
     $fields['owner_1'] = BaseFieldDefinition::create('string')
-      ->setLabel('Owner 1');
+      ->setLabel('Owner 1')
+      ->setRevisionable(TRUE);
 
     $fields['owner_2'] = BaseFieldDefinition::create('string')
-      ->setLabel('Owner 2');
+      ->setLabel('Owner 2')
+      ->setRevisionable(TRUE);
 
     $fields['market_value'] = BaseFieldDefinition::create('integer')
-      ->setLabel('Market Value');
+      ->setLabel('Market Value')
+      ->setRevisionable(TRUE);
+
 
     $fields['sale_date'] = BaseFieldDefinition::create('datetime')
-      ->setLabel('Sale date');
+      ->setLabel('Sale date')
+      ->setRevisionable(TRUE);
+
 
     $fields['sale_price'] = BaseFieldDefinition::create('integer')
-      ->setLabel('Sale price');
+      ->setLabel('Sale price')
+      ->setRevisionable(TRUE);
 
     $fields['zip_code'] = BaseFieldDefinition::create('string')
       ->setLabel('Zip');
@@ -191,10 +198,12 @@ class Property extends RevisionableContentEntityBase implements PropertyInterfac
       ->setLabel('Recording Date');
 
     $fields['total_area'] = BaseFieldDefinition::create('integer')
-      ->setLabel('Total Area');
+      ->setLabel('Total Area')
+      ->setRevisionable(TRUE);
 
     $fields['total_livable_area'] = BaseFieldDefinition::create('integer')
-      ->setLabel('Total Livable Area');
+      ->setLabel('Total Livable Area')
+      ->setRevisionable(TRUE);
 
     $fields['geoFail'] = BaseFieldDefinition::create('boolean')
       ->setLabel('Geocoding for Ward/Division failed');
