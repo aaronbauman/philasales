@@ -79,10 +79,10 @@ function philasales_fetch_new_sales() {
   $parcel_nums = "'" . implode("','", $parcel_nums) ."'";
   $endpoint = 'https://phl.carto.com/api/v2/sql';
   $query = "SELECT ST_X(the_geom) AS lon, ST_Y(the_geom) as lat,location,market_value,owner_1,owner_2,parcel_number,recording_date,sale_date,sale_price,total_area,total_livable_area,zoning,zip_code FROM opa_properties_public where (sale_date >= '$max_sale_date') AND parcel_number NOT IN ($parcel_nums)";
-  \Drupal::logger('philasales')->info('Query: !query', ['!query' => $query]);
+  \Drupal::logger('philasales')->info('Query: %query', ['%query' => $query]);
   $response = \Drupal::httpClient()->post($endpoint, ['form_params' => ['q' => $query]]);
   $content = json_decode($response->getBody()->getContents());
-  \Drupal::logger('philasales')->info('!n results', ['!n' => count($content->rows)]);
+  \Drupal::logger('philasales')->info('%n results', ['%n' => count($content->rows)]);
   foreach ($content->rows as $row) {
     $prop = Property::load((int)$row->parcel_number);
     $values = get_object_vars($row);
@@ -98,7 +98,7 @@ function philasales_fetch_new_sales() {
         // Two step save so we don't loose a property entirely due to missing coords.
         $prop = Property::create($values);
         $prop->save();
-        \Drupal::logger('philasales')->info('Saved new property !id', ['!id' => $row->parcel_number]);
+        \Drupal::logger('philasales')->info('Saved new property %id', ['%id' => $row->parcel_number]);
         if (!empty($values['lon']) && !empty($values['lat']) && is_numeric($values['lon']) && is_numeric($values['lat'])) {
           $prop
             ->set('geofield', \Drupal::service('geofield.wkt_generator')
@@ -125,7 +125,7 @@ function philasales_fetch_new_sales() {
       }
       try {
         $prop->save();
-        \Drupal::logger('philasales')->info('Updated property !id', ['!id' => $row->parcel_number]);
+        \Drupal::logger('philasales')->info('Updated property %id', ['%id' => $row->parcel_number]);
         if (!empty($values['lon']) && !empty($values['lat']) && is_numeric($values['lon']) && is_numeric($values['lat'])) {
           $prop->geofield->value = \Drupal::service('geofield.wkt_generator')
             ->wktBuildPoint([$values['lon'], $values['lat']]);
@@ -174,7 +174,7 @@ function philasales_populate_properties() {
       ->set('div_num', $div)
       ->set('division', $div_num)
       ->save();
-    \Drupal::logger('philasales')->info('Updated property !id with ward-div !divnum', ['!id' => $prop->id(), '!divnum' => $div_num]);
+    \Drupal::logger('philasales')->info('Updated property %id with ward-div %divnum', ['%id' => $prop->id(), '%divnum' => $div_num]);
     // Don't hammer the arcgis server too hard:
     sleep(2);
   }
