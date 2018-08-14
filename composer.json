@@ -9,12 +9,13 @@
         "drupal/geofield": "^1.0@beta",
         "drupal/geofield_map": "^2.10",
         "drupal/geocoder": "^2.0@beta",
-        "drupal/address": "^1.4",
+        "drupal/address": "1.x-dev",
         "drupal/admin_toolbar": "^1.24",
         "drupal/geophp": "^1.0@beta",
         "drupal/console": "^1.8",
         "drupal/devel": "^1.2",
-        "drupal/hotjar": "^1.2"
+        "drupal/hotjar": "^1.2",
+        "drupal/token": "^1.3"
     },
     "replace": {
         "drupal/core": "^8.5"

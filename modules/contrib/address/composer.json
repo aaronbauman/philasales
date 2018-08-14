@@ -6,6 +6,5 @@
     "license": "GPL-2.0+",
     "require": {
         "commerceguys/addressing": "^1.0.0"
-    },
-    "minimum-stability": "dev"
+    }
 }

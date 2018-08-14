@@ -38,7 +38,7 @@ use Drupal\Core\Render\Element\FormElement;
  *     'country_code' => 'US',
  *     'langcode' => 'en',
  *   ],
- *   '@field_overrides' => [
+ *   '#field_overrides' => [
  *     AddressField::ORGANIZATION => FieldOverride::REQUIRED,
  *     AddressField::ADDRESS_LINE2 => FieldOverride::HIDDEN,
  *     AddressField::POSTAL_CODE => FieldOverride::OPTIONAL,
