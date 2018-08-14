@@ -135,12 +135,6 @@ class Property extends RevisionableContentEntityBase implements PropertyInterfac
       ])
       ->setDisplayConfigurable('view', TRUE);
 
-    $fields['opa_link'] = BaseFieldDefinition::create('link')
-      ->setLabel(t('OPA Link'))
-      ->setComputed(TRUE)
-      ->setClass('\Drupal\link\Plugin\Field\FieldType\LinkItem')
-      ->setSetting('text source', 'id');
-
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Authored on'))
       ->setDescription(t('The time that the property was created.'))
