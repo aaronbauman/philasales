@@ -17,7 +17,7 @@ entity.ward.settings:
   parent: system.admin_structure
 
 entity.ward.collection:
-  title: Properties
+  title: Wards
   description: List of properties
   route_name: entity.ward.collection
   parent: system.admin_content
@@ -29,7 +29,7 @@ entity.division.settings:
   parent: system.admin_structure
 
 entity.division.collection:
-  title: Properties
+  title: Divisions
   description: List of properties
   route_name: entity.division.collection
   parent: system.admin_content

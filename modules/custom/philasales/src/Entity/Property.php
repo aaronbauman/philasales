@@ -181,11 +181,13 @@ class Property extends RevisionableContentEntityBase implements PropertyInterfac
       ->setLabel('Market Value')
       ->setRevisionable(TRUE);
 
-
     $fields['sale_date'] = BaseFieldDefinition::create('datetime')
       ->setLabel('Sale date')
       ->setRevisionable(TRUE);
 
+    $fields['sale_timestamp'] = BaseFieldDefinition::create('integer')
+      ->setLabel('Sale date')
+      ->setRevisionable(TRUE);
 
     $fields['sale_price'] = BaseFieldDefinition::create('integer')
       ->setLabel('Sale price')
