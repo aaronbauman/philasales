@@ -79,7 +79,7 @@ function philasales_fetch_new_sales() {
   $parcel_nums = "'" . implode("','", $parcel_nums) ."'";
   $endpoint = 'https://phl.carto.com/api/v2/sql';
   $query = "SELECT ST_X(the_geom) AS lon, ST_Y(the_geom) as lat,location,market_value,owner_1,owner_2,parcel_number,recording_date,sale_date,sale_price,total_area,total_livable_area,zoning,zip_code FROM opa_properties_public where (sale_date >= '$max_sale_date') AND parcel_number NOT IN ($parcel_nums)";
-  \Drupal::logger('philasales')->info('Query: %query', ['%query' => $query]);
+  \Drupal::logger('philasales')->info('Query: %query', ['%query' => substr($query, 0, 200)]);
   $response = \Drupal::httpClient()->post($endpoint, ['form_params' => ['q' => $query]]);
   $content = json_decode($response->getBody()->getContents());
   \Drupal::logger('philasales')->info('%n results', ['%n' => count($content->rows)]);
