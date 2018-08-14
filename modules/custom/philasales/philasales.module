@@ -125,7 +125,8 @@ function philasales_populate_properties() {
     $div = substr($div_num, 2, 2);
     $prop
       ->set('ward', $ward)
-      ->set('division', $div)
+      ->set('div_num', $div)
+      ->set('division', $div_num)
       ->save();
     // Don't hammer the arcgis server too hard:
     sleep(2);

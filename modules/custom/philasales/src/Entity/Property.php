@@ -155,12 +155,15 @@ class Property extends RevisionableContentEntityBase implements PropertyInterfac
       ]);
 
     $fields['division'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Division'))
-      ->setDescription('Division')
+      ->setLabel(t('Division Lookup'))
+      ->setDescription('Division Lookup')
       ->setRequired(TRUE)
       ->setSettings([
         'target_type' => 'division'
       ]);
+
+    $fields['div_num'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Division Number'));
 
     $fields['geofield'] = BaseFieldDefinition::create('geofield')
       ->setLabel(t('Geofield'))
