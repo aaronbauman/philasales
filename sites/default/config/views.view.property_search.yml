@@ -1192,7 +1192,7 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: '{{ id_1 }}'
+            text: '/opa_redirect/{{ path(''philasales.opa_redirect'', {''parcel_num'': id_2 }) }}'
             make_link: false
             path: ''
             absolute: false
