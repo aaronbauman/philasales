@@ -1,0 +1,10 @@
+uuid: 2f485fdf-4458-43e0-8881-cfa8e0f885f0
+langcode: en
+status: true
+dependencies:
+  module:
+    - philasales
+id: division.token
+label: Token
+targetEntityType: division
+cache: true

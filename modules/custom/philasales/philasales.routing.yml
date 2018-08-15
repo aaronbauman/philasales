@@ -1,3 +1,11 @@
+philasales.opa_redirect:
+  path: 'opa_redirect/{parcel_num}'
+  defaults:
+    _controller: '\Drupal\philasales\Controller\OpaRedirect::doRedirect'
+  requirements:
+    _access: 'TRUE'
+
+
 entity.property.settings:
   path: 'admin/structure/property'
   defaults:

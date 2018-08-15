@@ -1,0 +1,10 @@
+uuid: b552c282-1212-4d03-a7b7-4aed6870f972
+langcode: en
+status: true
+dependencies:
+  module:
+    - philasales
+id: property.token
+label: Token
+targetEntityType: property
+cache: true

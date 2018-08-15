@@ -1,0 +1,22 @@
+uuid: 8f759061-9b37-452b-b3d3-0593de04521c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_geolocation
+    - node.type.property
+  module:
+    - geofield
+id: node.property.field_geolocation
+field_name: field_geolocation
+entity_type: node
+bundle: property
+label: Geolocation
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  backend: geofield_backend_default
+field_type: geofield

@@ -1,0 +1,10 @@
+uuid: 21a15800-aa8d-44f3-9835-e0ef703fb6ce
+langcode: en
+status: true
+dependencies:
+  module:
+    - philasales
+id: ward.token
+label: Token
+targetEntityType: ward
+cache: true
