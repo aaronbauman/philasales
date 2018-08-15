@@ -1277,6 +1277,93 @@ display:
           entity_type: property
           entity_field: division
           plugin_id: numeric
+        ward:
+          id: ward
+          table: property
+          field: ward
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: ward_op
+            label: 'Ward Lookup'
+            description: ''
+            use_operator: false
+            operator: ward_op
+            identifier: ward
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: property
+          entity_field: ward
+          plugin_id: numeric
+        zip_code:
+          id: zip_code
+          table: property
+          field: zip_code
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: starts
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: zip_code_op
+            label: 'Zip Lookup'
+            description: ''
+            use_operator: false
+            operator: zip_code_op
+            identifier: zip_code
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: property
+          entity_field: zip_code
+          plugin_id: string
       sorts:
         created:
           id: created
