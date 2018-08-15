@@ -89,6 +89,9 @@ display:
             total_area: total_area
             total_livable_area: total_livable_area
             zip_code: zip_code
+            id_1: id_1
+            nothing: nothing
+            created: created
           info:
             division:
               sortable: false
@@ -181,7 +184,28 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-          default: sale_timestamp
+            id_1:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            nothing:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            created:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+          default: '-1'
           empty_table: false
       row:
         type: fields
@@ -1139,10 +1163,10 @@ display:
           entity_field: division
           plugin_id: numeric
       sorts:
-        sale_timestamp:
-          id: sale_timestamp
+        created:
+          id: created
           table: property
-          field: sale_timestamp
+          field: created
           relationship: none
           group_type: group
           admin_label: ''
@@ -1150,9 +1174,10 @@ display:
           exposed: false
           expose:
             label: ''
+          granularity: second
           entity_type: property
-          entity_field: sale_timestamp
-          plugin_id: standard
+          entity_field: created
+          plugin_id: date
       title: 'property search'
       header:
         area_4:
