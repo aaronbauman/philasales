@@ -604,6 +604,72 @@ display:
           entity_type: property
           entity_field: sale_timestamp
           plugin_id: field
+        id_2:
+          id: id_2
+          table: property
+          field: id
+          relationship: none
+          group_type: group
+          admin_label: 'fuckin gufck'
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_integer
+          settings:
+            thousand_separator: ''
+            prefix_suffix: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: property
+          entity_field: id
+          plugin_id: field
         sale_price:
           id: sale_price
           table: property
@@ -939,7 +1005,7 @@ display:
           field: id
           relationship: none
           group_type: group
-          admin_label: ''
+          admin_label: 'OPA redirect path'
           label: ''
           exclude: true
           alter:
@@ -1005,12 +1071,12 @@ display:
           field: nothing
           relationship: none
           group_type: group
-          admin_label: ''
+          admin_label: 'Description for feed'
           label: ''
           exclude: true
           alter:
             alter_text: true
-            text: "{{ ward }}-{{ div_num }}: {{ location }} {{ zip_code }}\nSold {{ sale_timestamp}} {{ sale_price }}\nAssessment {{ market_value }}\n{{ owner_1 }}\n\n{{ id }}"
+            text: "{{ ward }}-{{ div_num }}: {{ location }} {{ zip_code }}\nSold {{ sale_timestamp}} {{ sale_price }}\nAssessment {{ market_value }}\n{{ owner_1 }}\n\n<a href=\"{{ url('philasales.opa_redirect', {'parcel_num': id_2 }) }}\">{{ id_2 }}</a>\n"
             make_link: false
             path: ''
             absolute: false
@@ -1115,6 +1181,55 @@ display:
           entity_type: property
           entity_field: created
           plugin_id: field
+        nothing_1:
+          id: nothing_1
+          table: views
+          field: nothing
+          relationship: none
+          group_type: group
+          admin_label: 'GUID for XML feed'
+          label: ''
+          exclude: true
+          alter:
+            alter_text: true
+            text: '{{ id_1 }}'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: false
+          plugin_id: custom
       filters:
         division:
           id: division
@@ -1218,12 +1333,12 @@ display:
         type: rss_fields
         options:
           title_field: location
-          link_field: id_1
+          link_field: nothing_1
           description_field: nothing
           creator_field: owner_1
           date_field: created
           guid_field_options:
-            guid_field: id_1
+            guid_field: nothing_1
             guid_field_is_permalink: true
       path: property-search/feed.xml
       displays:
