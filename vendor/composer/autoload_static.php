@@ -92,6 +92,10 @@ class ComposerStaticInitDrupal8
         array (
             'Masterminds\\' => 12,
         ),
+        'L' => 
+        array (
+            'League\\Csv\\' => 11,
+        ),
         'I' => 
         array (
             'Ivory\\HttpAdapter\\' => 18,
@@ -340,6 +344,10 @@ class ComposerStaticInitDrupal8
         'Masterminds\\' => 
         array (
             0 => __DIR__ . '/..' . '/masterminds/html5/src',
+        ),
+        'League\\Csv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/csv/src',
         ),
         'Ivory\\HttpAdapter\\' => 
         array (
