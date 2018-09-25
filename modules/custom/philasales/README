@@ -7,7 +7,7 @@ Divisions:
 -- via https://www.opendataphilly.org/dataset/political-ward-divisions/resource/f222a53a-6cb5-4cfc-8f26-c9ba5c669336
 
 Sales data:
--- https://phl.carto.com/api/v2/sql?q=SELECT%20ST_X(the_geom) AS lon, ST_Y(the_geom) as lat,location,market_value,owner_1,owner_2,parcel_number,recording_date,sale_date,sale_price,total_area,total_livable_area,zoning,zip_code%20FROM%20opa_properties_public%20where%20sale_date%20%3E%20%272018-01-01%27%20%20
+-- https://phl.carto.com/api/v2/sql?q=SELECT%20ST_X(the_geom) AS lon, ST_Y(the_geom) as lat,location,market_value,owner_1,owner_2,parcel_number,recording_date,sale_date,sale_price,total_area,total_livable_area,unit,zoning,zip_code%20FROM%20opa_properties_public%20where%20sale_date%20%3E%20%272018-01-01%27%20%20
 
 Arcgis Ward-Division query:
 -- https://services.arcgis.com/fLeGjb7u4uXqeF9q/ArcGIS/rest/services/Political_Divisions/FeatureServer/0/query?where=&objectIds=&time=&geometry=%7B%22x%22+%3A+-75.158280%2C+%22y%22+%3A+39.941342%2C+%22spatialReference%22+%3A+%7B%22wkid%22+%3A+4326%7D%7D&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=DIVISION_NUM&returnGeometry=false&returnCentroid=false&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnDistinctValues=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=

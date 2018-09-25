@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * Set default value for new force_refresh field.
+ */
+function philasales_update_8001() {
+  \Drupal::database()->query("UPDATE property SET force_refresh = 0");
+}

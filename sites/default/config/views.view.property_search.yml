@@ -3,7 +3,11 @@ langcode: en
 status: true
 dependencies:
   module:
+    - csv_serialization
     - philasales
+    - rest
+    - serialization
+    - views_data_export
 id: property_search
 label: 'property search'
 module: views
@@ -84,6 +88,7 @@ display:
             edit_property: edit_property
             location: location
             sale_timestamp: sale_timestamp
+            id_2: id_2
             sale_price: sale_price
             market_value: market_value
             total_area: total_area
@@ -92,6 +97,8 @@ display:
             id_1: id_1
             nothing: nothing
             created: created
+            nothing_1: nothing_1
+            revision_timestamp: revision_timestamp
           info:
             division:
               sortable: false
@@ -145,6 +152,13 @@ display:
             sale_timestamp:
               sortable: true
               default_sort_order: desc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            id_2:
+              sortable: false
+              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
@@ -205,7 +219,21 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-          default: '-1'
+            nothing_1:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            revision_timestamp:
+              sortable: true
+              default_sort_order: desc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+          default: revision_timestamp
           empty_table: false
       row:
         type: fields
@@ -538,6 +566,13 @@ display:
           entity_type: property
           entity_field: location
           plugin_id: field
+        unit:
+          id: unit
+          table: property
+          field: unit
+          entity_type: property
+          entity_field: unit
+          plugin_id: field
         sale_timestamp:
           id: sale_timestamp
           table: property
@@ -610,7 +645,7 @@ display:
           field: id
           relationship: none
           group_type: group
-          admin_label: 'fuckin gufck'
+          admin_label: ''
           label: ''
           exclude: true
           alter:
@@ -1076,7 +1111,7 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: "{{ ward }}-{{ div_num }}: {{ location }} {{ zip_code }}\nSold {{ sale_timestamp}} {{ sale_price }}\nAssessment {{ market_value }}\n{{ owner_1 }}\n\n<a href=\"{{ url('philasales.opa_redirect', {'parcel_num': id_2 }) }}\">{{ id_2 }}</a>\n"
+            text: "<h2>{{ ward }}-{{ div_num }}: {{ location }} #{{ unit }}</h2>\n<h2>{{ zip_code }}</h2>\n<p>Sold {{ sale_timestamp}} {{ sale_price }}</p>\n<p>Assessment {{ market_value }}</p>\n<p><strong>{{ owner_1 }}</strong></p>\n<p>&nbsp;</p>\n<p><a href=\"{{ url('philasales.opa_redirect', {'parcel_num': id_2 }) }}\">{{ id_2 }}</a></p>\n"
             make_link: false
             path: ''
             absolute: false
@@ -1165,8 +1200,8 @@ display:
           click_sort_column: value
           type: timestamp
           settings:
-            date_format: medium
-            custom_date_format: ''
+            date_format: custom
+            custom_date_format: r
             timezone: ''
           group_column: value
           group_columns: {  }
@@ -1230,53 +1265,74 @@ display:
           empty_zero: false
           hide_alter_empty: false
           plugin_id: custom
-      filters:
-        division:
-          id: division
-          table: property
-          field: division
+        revision_timestamp:
+          id: revision_timestamp
+          table: property_revision
+          field: revision_timestamp
           relationship: none
           group_type: group
           admin_label: ''
-          operator: '='
-          value:
-            min: ''
-            max: ''
-            value: ''
-          group: 1
-          exposed: true
-          expose:
-            operator_id: division_op
-            label: 'Division Lookup'
-            description: 'Enter a 3- or 4-digit Ward-Division number like "101" for Ward 1, Division 1 or "5521" for Ward 55, Division 21'
-            use_operator: false
-            operator: division_op
-            identifier: division
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-            placeholder: ''
-            min_placeholder: ''
-            max_placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
+          label: 'Posted Date'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: timestamp
+          settings:
+            date_format: html_date
+            custom_date_format: ''
+            timezone: ''
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
           entity_type: property
-          entity_field: division
-          plugin_id: numeric
+          entity_field: revision_timestamp
+          plugin_id: field
+      filters:
         ward:
           id: ward
           table: property
@@ -1364,6 +1420,52 @@ display:
           entity_type: property
           entity_field: zip_code
           plugin_id: string
+        division:
+          id: division
+          table: property
+          field: division
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: division_op
+            label: 'Division Lookup'
+            description: 'Enter a 3- or 4-digit Ward-Division number like "101" for Ward 1, Division 1 or "5521" for Ward 55, Division 21'
+            use_operator: false
+            operator: division_op
+            identifier: division
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: property
+          entity_field: division
+          plugin_id: numeric
       sorts:
         created:
           id: created
@@ -1389,18 +1491,35 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          empty: false
+          empty: true
           tokenize: false
           content:
             value: "Welcome to phila property search. This database is meant as a neighborhood organizing tool, and was built for Philadelphia committee people to get in touch with their new constituents.\n\nWant to receive updates via email? Use <a href=\"https://ifttt.com/applets/147561p-rss-feed-to-email\">a tool like IFTTT</a>, which will hook up to this search's RSS feed. Filter by your ward-division number first, unless you want a serious deluge of emails."
             format: basic_html
           plugin_id: text
       footer: {  }
-      empty: {  }
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: true
+          tokenize: false
+          content:
+            value: 'No results? Try a different filter.'
+            format: basic_html
+          plugin_id: text
       relationships: {  }
       arguments: {  }
       display_extenders: {  }
       use_ajax: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
     cache_metadata:
       max-age: -1
       contexts:
@@ -1408,6 +1527,54 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+      tags: {  }
+  data_export_1:
+    display_plugin: data_export
+    id: data_export_1
+    display_title: 'Data export'
+    position: 4
+    display_options:
+      display_extenders: {  }
+      style:
+        type: data_export
+        options:
+          formats:
+            csv: csv
+          csv_settings:
+            delimiter: ','
+            enclosure: '"'
+            escape_char: \
+            strip_tags: true
+            trim: true
+            encoding: utf8
+          xls_settings:
+            xls_format: Excel2007
+            metadata:
+              creator: ''
+              last_modified_by: ''
+              title: ''
+              description: ''
+              subject: ''
+              keywords: ''
+              category: ''
+              manager: ''
+              company: ''
+      path: property-search/download.csv
+      filename: ''
+      displays:
+        page_1: page_1
+        default: '0'
+      pager:
+        type: none
+        options:
+          offset: 0
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - request_format
+        - url
       tags: {  }
   feed_1:
     display_plugin: feed
@@ -1431,6 +1598,10 @@ display:
       displays:
         page_1: page_1
         default: '0'
+      pager:
+        type: none
+        options:
+          offset: 0
     cache_metadata:
       max-age: -1
       contexts:

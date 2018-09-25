@@ -75,10 +75,10 @@ function philasales_geocode_missing_lat_lon() {
 function philasales_fetch_new_sales() {
   // $max_recording_date = date('Y-m-d', strtotime('-90 days'));
   $max_sale_date = date('Y-m-d', strtotime('-1 year'));
-  $parcel_nums = \Drupal::database()->query("SELECT lpad(id, 9, '0') FROM property WHERE sale_date >= '$max_sale_date'")->fetchCol();
+  $parcel_nums = \Drupal::database()->query("SELECT lpad(id, 9, '0') FROM property WHERE force_refresh < 1 AND sale_date >= '$max_sale_date'")->fetchCol();
   $parcel_nums = "'" . implode("','", $parcel_nums) ."'";
   $endpoint = 'https://phl.carto.com/api/v2/sql';
-  $query = "SELECT ST_X(the_geom) AS lon, ST_Y(the_geom) as lat,location,market_value,owner_1,owner_2,parcel_number,recording_date,sale_date,sale_price,total_area,total_livable_area,zoning,zip_code FROM opa_properties_public where (sale_date >= '$max_sale_date') AND parcel_number NOT IN ($parcel_nums)";
+  $query = "SELECT ST_X(the_geom) AS lon, ST_Y(the_geom) as lat,location,market_value,owner_1,owner_2,parcel_number,recording_date,sale_date,sale_price,total_area,total_livable_area,zoning,zip_code,unit FROM opa_properties_public where (sale_date >= '$max_sale_date') AND parcel_number NOT IN ($parcel_nums)";
   \Drupal::logger('philasales')->info('Query: %query', ['%query' => substr($query, 0, 200)]);
   $response = \Drupal::httpClient()->post($endpoint, ['form_params' => ['q' => $query]]);
   $content = json_decode($response->getBody()->getContents());
@@ -87,8 +87,10 @@ function philasales_fetch_new_sales() {
     $prop = Property::load((int)$row->parcel_number);
     $values = get_object_vars($row);
     $values['sale_timestamp'] = strtotime($values['sale_date']);
+    $values['unit'] = trim($values['unit'], '0');
+    $values['force_refresh'] = 0;
     if (!$prop) {
-      foreach ($values as &$value) {
+      foreach ($values as $key => &$value) {
         $value = trim($value);
       }
       try {

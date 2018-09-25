@@ -84,7 +84,18 @@ class Property extends RevisionableContentEntityBase implements PropertyInterfac
    * {@inheritdoc}
    */
   public function getTitle() {
-    return $this->get('location')->value;
+    $title = $this->get('location')->value;
+    if (!empty($this->get('unit')->value)) {
+      $title .= ' ' . ltrim($this->get('unit')->value, '0');
+    }
+    return $title;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function label() {
+    return $this->getTitle();
   }
 
   /**
@@ -134,6 +145,14 @@ class Property extends RevisionableContentEntityBase implements PropertyInterfac
         'weight' => -5,
       ])
       ->setDisplayConfigurable('view', TRUE);
+
+    $fields['unit'] = BaseFieldDefinition::create('string')
+      ->setLabel('Unit');
+
+    $fields['force_refresh'] = BaseFieldDefinition::create('boolean')
+      ->setLabel('Force Refresh')
+      ->setDescription('Property record will be refreshed if sale date is within the past year.')
+      ->setDefaultValue(0);
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Authored on'))
