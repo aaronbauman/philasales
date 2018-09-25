@@ -1494,7 +1494,7 @@ display:
           empty: true
           tokenize: false
           content:
-            value: "Welcome to phila property search. This database is meant as a neighborhood organizing tool, and was built for Philadelphia committee people to get in touch with their new constituents.\n\nWant to receive updates via email? Use <a href=\"https://ifttt.com/applets/147561p-rss-feed-to-email\">a tool like IFTTT</a>, which will hook up to this search's RSS feed. Filter by your ward-division number first, unless you want a serious deluge of emails."
+            value: "<p>Welcome to phila property search. This database is meant as a neighborhood organizing tool, and was built for Philadelphia committee people to get in touch with their new constituents.</p>\n\n<p>Want to receive updates via email? Use <a href=\"https://ifttt.com/applets/147561p-rss-feed-to-email\">a tool like IFTTT</a>, which will hook up to this search's RSS feed. Filter by your ward-division number first, unless you want a serious deluge of emails.</p>\n\n<p><strong>NEW: Open sourced at <a href=\"https://github.com/aaronbauman/philasales\">https://github.com/aaronbauman/philasales</a></strong></p>"
             format: basic_html
           plugin_id: text
       footer: {  }
