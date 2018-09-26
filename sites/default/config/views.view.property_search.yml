@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - better_exposed_filters
     - csv_serialization
     - philasales
     - rest
@@ -38,7 +39,7 @@ display:
           query_comment: ''
           query_tags: {  }
       exposed_form:
-        type: basic
+        type: bef
         options:
           submit_button: Apply
           reset_button: false
@@ -47,6 +48,45 @@ display:
           expose_sort_order: true
           sort_asc_label: Asc
           sort_desc_label: Desc
+          input_required: false
+          text_input_required: 'Select any filter and click on Apply to see results'
+          bef:
+            general:
+              allow_secondary: false
+              secondary_label: 'Advanced options'
+              autosubmit: false
+              autosubmit_exclude_textfield: false
+              autosubmit_hide: false
+            ward:
+              bef_format: default
+              slider_options:
+                bef_slider_min: null
+                bef_slider_max: null
+                bef_slider_step: !!float 1
+                bef_slider_animate: ''
+                bef_slider_orientation: horizontal
+              more_options:
+                is_secondary: false
+            zip_code:
+              bef_format: default
+              more_options:
+                is_secondary: false
+                placeholder_text: ''
+            division:
+              bef_format: default
+              slider_options:
+                bef_slider_min: null
+                bef_slider_max: null
+                bef_slider_step: !!float 1
+                bef_slider_animate: ''
+                bef_slider_orientation: horizontal
+              more_options:
+                is_secondary: false
+            sale_date_unix:
+              bef_format: bef_datepicker
+              more_options:
+                is_secondary: false
+          text_input_required_format: basic_html
       pager:
         type: full
         options:
@@ -87,6 +127,7 @@ display:
             owner_1: owner_1
             edit_property: edit_property
             location: location
+            unit: unit
             sale_timestamp: sale_timestamp
             id_2: id_2
             sale_price: sale_price
@@ -143,6 +184,13 @@ display:
               empty_column: false
               responsive: ''
             location:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            unit:
               sortable: false
               default_sort_order: asc
               align: ''
@@ -233,7 +281,7 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-          default: revision_timestamp
+          default: sale_timestamp
           empty_table: false
       row:
         type: fields
@@ -1466,6 +1514,53 @@ display:
           entity_type: property
           entity_field: division
           plugin_id: numeric
+        sale_date_unix:
+          id: sale_date_unix
+          table: property
+          field: sale_date_unix
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '>='
+          value:
+            min: ''
+            max: ''
+            value: ''
+            type: date
+          group: 1
+          exposed: true
+          expose:
+            operator_id: sale_date_unix_op
+            label: 'Sale Date'
+            description: 'Enter a date to see newer sales only.'
+            use_operator: false
+            operator: sale_date_unix_op
+            identifier: sale_date_unix
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: property
+          entity_field: sale_date_unix
+          plugin_id: date
       sorts:
         created:
           id: created
@@ -1494,7 +1589,7 @@ display:
           empty: true
           tokenize: false
           content:
-            value: "<p>Welcome to phila property search. This database is meant as a neighborhood organizing tool, and was built for Philadelphia committee people to get in touch with their new constituents.</p>\n\n<p>Want to receive updates via email? Use <a href=\"https://ifttt.com/applets/147561p-rss-feed-to-email\">a tool like IFTTT</a>, which will hook up to this search's RSS feed. Filter by your ward-division number first, unless you want a serious deluge of emails.</p>\n\n<p><strong>NEW: Open sourced at <a href=\"https://github.com/aaronbauman/philasales\">https://github.com/aaronbauman/philasales</a></strong></p>"
+            value: "<p>Welcome to phila property search. This database is meant as a neighborhood organizing tool, and was built for Philadelphia committee people to get in touch with their new constituents.</p>\n\n<p>Want to receive updates via email? Use <a href=\"https://ifttt.com/applets/147561p-rss-feed-to-email\">a tool like IFTTT</a>, which will hook up to this search's RSS feed. Filter by your ward-division number first, unless you want a serious deluge of emails.</p>\n\n<p><strong>NEW: Open sourced at <a href=\"https://github.com/aaronbauman/philasales\">https://github.com/aaronbauman/philasales</a></strong></p>\n\n<p>CSV export is limited to 2000 items. Please use a filter before trying to export.</p>"
             format: basic_html
           plugin_id: text
       footer: {  }
@@ -1565,8 +1660,9 @@ display:
         page_1: page_1
         default: '0'
       pager:
-        type: none
+        type: some
         options:
+          items_per_page: 2000
           offset: 0
     cache_metadata:
       max-age: -1
@@ -1599,8 +1695,9 @@ display:
         page_1: page_1
         default: '0'
       pager:
-        type: none
+        type: some
         options:
+          items_per_page: 5000
           offset: 0
     cache_metadata:
       max-age: -1
