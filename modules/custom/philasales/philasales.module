@@ -86,7 +86,7 @@ function philasales_fetch_new_sales() {
   foreach ($content->rows as $row) {
     $prop = Property::load((int)$row->parcel_number);
     $values = get_object_vars($row);
-    $values['sale_timestamp'] = strtotime($values['sale_date']);
+    $values['sale_date_unix'] = strtotime($values['sale_date']);
     $values['unit'] = trim($values['unit'], '0');
     $values['force_refresh'] = 0;
     if (!$prop) {

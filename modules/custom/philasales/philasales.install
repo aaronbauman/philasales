@@ -6,3 +6,7 @@
 function philasales_update_8001() {
   \Drupal::database()->query("UPDATE property SET force_refresh = 0");
 }
+
+function philasales_update_8002() {
+  \Drupal::database()->query("UPDATE property SET sale_date_unix = sale_timestamp");
+}
