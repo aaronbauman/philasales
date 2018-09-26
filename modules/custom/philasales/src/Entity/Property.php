@@ -218,7 +218,7 @@ class Property extends RevisionableContentEntityBase implements PropertyInterfac
       ->setRevisionable(TRUE);
 
     $fields['sale_date_unix'] = BaseFieldDefinition::create('timestamp')
-      ->setLabel('timestamp test')
+      ->setLabel('Sale date - timestamp')
       ->setRevisionable(TRUE);
 
     $fields['sale_price'] = BaseFieldDefinition::create('integer')
